@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "398680975413",
+    "project_id": "gestiotechv3",
+    "storage_bucket": "gestiotechv3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:398680975413:android:93059e0e6b250a5596697c",
+        "android_client_info": {
+          "package_name": "com.example.gestiotech_v3"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB31PkXd5dySeVYlYQPqPQZg0NGwCZFsfQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

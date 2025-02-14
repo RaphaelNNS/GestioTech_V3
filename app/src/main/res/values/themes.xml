@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Tema Light do aplicativo -->
+    <style name="Base.Theme.GestioTech_V3." parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Cores primárias -->
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorPrimaryVariant">@color/darkGray</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Cores secundárias -->
+        <item name="colorSecondary">@color/mediumGray</item>
+        <item name="colorSecondaryVariant">@color/lightGray</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+        <!-- Fundo e aparência geral -->
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:textColor">@color/black</item>
+
+        <!-- Outras customizações (exemplo: status bar) -->
+        <item name="android:statusBarColor">@color/black</item>
+    </style>
+
+</resources>
