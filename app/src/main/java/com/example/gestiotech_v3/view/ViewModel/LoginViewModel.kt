@@ -4,6 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gestiotech_v3.model.auth.FirebaseHandler
+import com.example.gestiotech_v3.view.ViewModel.screenState.DisplayState
+import com.example.gestiotech_v3.view.ViewModel.screenState.LoginScreenState
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
@@ -11,53 +13,41 @@ class LoginViewModel: ViewModel() {
 
     var firebaseHandler: FirebaseHandler = FirebaseHandler()
 
-    val isLoggedInLiveData = MutableLiveData<Boolean>()
-    var isLoggedIn = false
-
-    val loadinLiveData = MutableLiveData<Boolean>()
-    var loading = false
-
-    val passwordLiveData = MutableLiveData<String>()
-    var password = ""
-
-    val confirmedPasswordLiveData = MutableLiveData<String>()
-    var confirmedPassword = ""
-
-    val emailLiveData = MutableLiveData<String>()
-    var email = ""
-
-    val serverResponseLiveData = MutableLiveData<String>()
-    var message = ""
-
+    val screenStateLivedata = MutableLiveData<LoginScreenState>()
+    var screenState = LoginScreenState(displayState = DisplayState.Content)
 
     fun onCreate(){
         val user = FirebaseAuth.getInstance().currentUser
         if(user != null){
-            isLoggedIn = true
-            isLoggedInLiveData.value = isLoggedIn
+            screenState.isLoggedIn = true
+            updateLiveData()
         }
     }
 
     fun onClickLogin() {
         viewModelScope.launch{
-            loading = true
-            loadinLiveData.postValue(loading)
+            screenState.loading = true
+            updateLiveData()
             try {
-                var result = firebaseHandler.loginEmailPassword(email, password)
+                var result = firebaseHandler.loginEmailPassword(screenState.email, screenState.password)
                 if (result != null){
-                    isLoggedIn = true
-                    isLoggedInLiveData.postValue(isLoggedIn)
+                    screenState.isLoggedIn = true
+                    updateLiveData()
                 }
-                loading = false
-                loadinLiveData.postValue(loading)
+                screenState.loading = false
+                updateLiveData()
 
             }catch (e: Exception){
-                message = e.message.toString()
-                serverResponseLiveData.postValue(message)
-                loading = false
-                loadinLiveData.postValue(loading)
+                screenState.message = e.message.toString()
+                screenState.loading = false
+                updateLiveData()
+
+
             }
         }
     }
 
+    fun updateLiveData(){
+        screenStateLivedata.postValue(screenState)
+    }
 }

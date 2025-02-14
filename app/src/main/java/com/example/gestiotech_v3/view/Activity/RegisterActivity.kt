@@ -47,6 +47,9 @@ class RegisterActivity : AppCompatActivity() {
         val passwordLiveData = registerViewModel.passwordLiveData
         passwordLiveData.observe(this) { password ->
         }
+        val secondPasswordLiveData = registerViewModel.secondPasswordLiveData
+        secondPasswordLiveData.observe(this) { password ->
+        }
         //LiveData -> Email
         val emailLiveData = registerViewModel.emailLiveData
         emailLiveData.observe(this){ email ->
@@ -92,8 +95,7 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun updateOnModel(){
         registerViewModel.email = binding.editTextEmail.text.toString()
-        registerViewModel.emailLiveData.value = registerViewModel.email
         registerViewModel.password = binding.editTextPassword.text.toString()
-        registerViewModel.serverResponseLiveData.value = registerViewModel.message
+        registerViewModel.secondPassword = binding.editTextConfirmPassword.text.toString()
     }
 }

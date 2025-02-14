@@ -19,6 +19,9 @@ class RegisterViewModel: ViewModel() {
     val passwordLiveData = MutableLiveData<String>()
     var password = ""
 
+    val secondPasswordLiveData = MutableLiveData<String>()
+    var secondPassword = ""
+
     val emailLiveData = MutableLiveData<String>()
     var email = ""
 
@@ -27,6 +30,13 @@ class RegisterViewModel: ViewModel() {
 
 
     fun onClickRegister() {
+
+        if(!checkPassword(password, secondPassword)){
+            val erro = Exception("As senhas não coincidem")
+            message = erro.message.toString()
+            serverResponseLiveData.postValue(message)
+            return
+        }
         viewModelScope.launch{
             loading = true
             loadinLiveData.postValue(loading)
@@ -45,5 +55,9 @@ class RegisterViewModel: ViewModel() {
                 loadinLiveData.postValue(loading)
             }
         }
+    }
+
+    fun checkPassword(firstPassword: String, secondPassword: String): Boolean{
+        return (firstPassword == secondPassword)
     }
 }

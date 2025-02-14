@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.gestiotech_v3.R
 import com.example.gestiotech_v3.databinding.ActivityMainBinding
 import com.example.gestiotech_v3.view.ViewModel.LoginViewModel
+import com.example.gestiotech_v3.view.ViewModel.screenState.LoginScreenState
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,45 +36,45 @@ class MainActivity : AppCompatActivity() {
         //ViewModel
         loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
         loginViewModel.onCreate()
-        //Live -> IsLoggedIn
-        val isLoggedInLiveData = loginViewModel.isLoggedInLiveData
-        isLoggedInLiveData.observe(this){
-            if (isLoggedInLiveData.value == true){
+        val screenStateLiveData = loginViewModel.screenStateLivedata
+        screenStateLiveData.observe(this){
+            if (screenStateLiveData.value?.isLoggedIn == true){
                 val intent = Intent(this, HomeActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
             }
-        }
-        //LiveData -> Password
-        val passwordLiveData = loginViewModel.passwordLiveData
-        passwordLiveData.observe(this) { password ->
-        }
-        //LiveData -> Email
-        val emailLiveData = loginViewModel.emailLiveData
-        emailLiveData.observe(this){ email ->
-        }
-        //LiveData -> ServerResponse
-        val responseLiveData = loginViewModel.serverResponseLiveData
-        responseLiveData.observe(this){
-            val response = responseLiveData.value
-            if(response != null){
+            val response = screenStateLiveData.value?.message
+            if(!response.isNullOrEmpty()){
                 showServerResponse(response)
             }
-        }
-        //LiveData -> Loading
-        val loadingLiveData = loginViewModel.loadinLiveData
-        loadingLiveData.observe(this){ isLoading ->
-            if(isLoading) showLoading()
-            if(isLoading == false) hideLoading()
+            if(screenStateLiveData.value?.loading == true) {
+                unableButtons()
+                showLoading()
+            }
+            if(screenStateLiveData.value?.loading == false){
+                hideLoading()
+                ableButtons()
+            }
         }
     }
+
     private fun showLoading(){
         binding.progressBar.visibility = View.VISIBLE
     }
     private fun hideLoading(){
         binding.progressBar.visibility = View.GONE
     }
-    fun showServerResponse(message: String){
+    private fun unableButtons(){
+        binding.buttonLogin.isEnabled = false
+        binding.buttonGmail.isEnabled = false
+        binding.textRegister.isEnabled = false
+    }
+    private fun ableButtons(){
+        binding.buttonLogin.isEnabled = true
+        binding.buttonGmail.isEnabled = true
+        binding.textRegister.isEnabled = true
+    }
+    private fun showServerResponse(message: String){
         binding.textReturn.visibility = View.VISIBLE
         binding.textReturn.text = message
     }
@@ -88,9 +89,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private fun updateOnModel(){
-        loginViewModel.email = binding.editTextEmail.text.toString()
-        loginViewModel.emailLiveData.value = loginViewModel.email
-        loginViewModel.password = binding.editTextPassword.text.toString()
-        loginViewModel.serverResponseLiveData.value = loginViewModel.message
+        val screenState = loginViewModel.screenState
+        screenState.email = binding.editTextEmail.text.toString()
+        screenState.password = binding.editTextPassword.text.toString()
+        loginViewModel.screenStateLivedata.value = screenState
     }
 }
