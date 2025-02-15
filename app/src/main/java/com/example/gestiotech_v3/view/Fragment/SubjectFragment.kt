@@ -29,6 +29,6 @@ class SubjectFragment : Fragment() {
     ): View {
 
 
-        return inflater.inflate(R.layout.fragment_subject, container, false)
+        return inflater.inflate(R.layout.fragment_subject   , container, false)
     }
 }

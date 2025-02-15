@@ -4,60 +4,46 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gestiotech_v3.model.auth.FirebaseHandler
+import com.example.gestiotech_v3.view.ViewModel.screenState.LoginScreenState
+import com.example.gestiotech_v3.view.ViewModel.screenState.RegisterScreenState
 import kotlinx.coroutines.launch
 
 class RegisterViewModel: ViewModel() {
 
     var firebaseHandler: FirebaseHandler = FirebaseHandler()
 
-    val hasLoggedLiveData = MutableLiveData<Boolean>()
-    var hasLogged = false
-
-    val loadinLiveData = MutableLiveData<Boolean>()
-    var loading = false
-
-    val passwordLiveData = MutableLiveData<String>()
-    var password = ""
-
-    val secondPasswordLiveData = MutableLiveData<String>()
-    var secondPassword = ""
-
-    val emailLiveData = MutableLiveData<String>()
-    var email = ""
-
-    val serverResponseLiveData = MutableLiveData<String>()
-    var message = ""
-
+    val screenStateLiveData = MutableLiveData<RegisterScreenState>()
+    var screenState = RegisterScreenState()
 
     fun onClickRegister() {
 
-        if(!checkPassword(password, secondPassword)){
+        if(!checkPassword(screenState.password, screenState.confirmPassword)){
             val erro = Exception("As senhas não coincidem")
-            message = erro.message.toString()
-            serverResponseLiveData.postValue(message)
+            screenState.message = erro.message.toString()
+            updateLiveData()
             return
         }
         viewModelScope.launch{
-            loading = true
-            loadinLiveData.postValue(loading)
+            screenState.loading = true
+            updateLiveData()
             try {
-                var result = firebaseHandler.registerEmailPassword(email, password)
-                message = result.toString()
-                serverResponseLiveData.postValue(message)
-                loading = false
-                loadinLiveData.postValue(loading)
-                hasLogged = true
-                hasLoggedLiveData.postValue(hasLogged)
+                var result = firebaseHandler.registerEmailPassword(screenState.email, screenState.password)
+                screenState.message = result.toString()
+                screenState.isLoggedIn = true
             }catch (e: Exception){
-                message = e.message.toString()
-                serverResponseLiveData.postValue(message)
-                loading = false
-                loadinLiveData.postValue(loading)
+                screenState.message = e.message.toString()
+            }finally {
+                screenState.loading = false
+                updateLiveData()
             }
         }
     }
 
     fun checkPassword(firstPassword: String, secondPassword: String): Boolean{
         return (firstPassword == secondPassword)
+    }
+
+    fun updateLiveData(){
+        screenStateLiveData.postValue(screenState)
     }
 }

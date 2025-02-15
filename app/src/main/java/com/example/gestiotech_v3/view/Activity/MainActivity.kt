@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         setupButtons()
         loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
         loginViewModel.onCreate()
-        setupObservers(this)
+        setupObservers()
     }
 
     private fun setupButtons(){
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
-    private fun setupObservers(context: Context){
+    private fun setupObservers(){
         val screenStateLiveData = loginViewModel.screenStateLivedata
         screenStateLiveData.observe(this){
             if (screenStateLiveData.value?.isLoggedIn == true){

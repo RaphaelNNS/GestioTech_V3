@@ -1,5 +1,6 @@
 package com.example.gestiotech_v3.view.Activity
 
+import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
@@ -30,59 +31,11 @@ class RegisterActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        ////////////////////////////////////[BoilerPlate]////////////////////////////////////
         setupButtons()
-        //ViewModel
         registerViewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
-        val hasLoggedLiveData = registerViewModel.hasLoggedLiveData
-        hasLoggedLiveData.observe(this){
-            if (hasLoggedLiveData.value == true){
-                registerViewModel.hasLogged = false
-                registerViewModel.hasLoggedLiveData.value = registerViewModel.hasLogged
-                startActivity(Intent(this, LoginViewModel::class.java))
-
-            }
-        }
-        //LiveData -> Password
-        val passwordLiveData = registerViewModel.passwordLiveData
-        passwordLiveData.observe(this) { password ->
-        }
-        val secondPasswordLiveData = registerViewModel.secondPasswordLiveData
-        secondPasswordLiveData.observe(this) { password ->
-        }
-        //LiveData -> Email
-        val emailLiveData = registerViewModel.emailLiveData
-        emailLiveData.observe(this){ email ->
-        }
-        //LiveData -> ServerResponse
-        val responseLiveData = registerViewModel.serverResponseLiveData
-        responseLiveData.observe(this){
-            val response = responseLiveData.value
-            if(response != null){
-                showServerResponse(response)
-            }
-        }
-        //LiveData -> Loading
-        val loadingLiveData = registerViewModel.loadinLiveData
-        loadingLiveData.observe(this){ isLoading ->
-            if(isLoading) showLoading()
-            if(isLoading == false) hideLoading()
-        }
+        setupObservers()
     }
 
-
-    private fun showLoading(){
-        binding.progressBar.visibility = View.VISIBLE
-    }
-    private fun hideLoading(){
-        binding.progressBar.visibility = View.GONE
-    }
-
-
-    fun showServerResponse(message: String){
-        binding.textReturn.visibility = View.VISIBLE
-        binding.textReturn.text = message
-    }
     private fun setupButtons(){
         binding.buttonRegister.setOnClickListener {
             updateOnModel()
@@ -94,8 +47,54 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun updateOnModel(){
-        registerViewModel.email = binding.editTextEmail.text.toString()
-        registerViewModel.password = binding.editTextPassword.text.toString()
-        registerViewModel.secondPassword = binding.editTextConfirmPassword.text.toString()
+        registerViewModel.screenState.email = binding.editTextEmail.text.toString()
+        registerViewModel.screenState.password = binding.editTextPassword.text.toString()
+        registerViewModel.screenState.confirmPassword = binding.editTextConfirmPassword.text.toString()
+        registerViewModel.updateLiveData()
     }
+
+    private fun setupObservers(){
+        val screenStateLiveData = registerViewModel.screenStateLiveData
+        screenStateLiveData.observe(this){
+            if (screenStateLiveData.value?.isLoggedIn == true){
+                val intent = Intent(this, HomeActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(Intent(this, LoginViewModel::class.java))
+            }
+            val response = screenStateLiveData.value?.message
+            if(response != null){
+                showServerResponse(response)
+            }
+            if(screenStateLiveData.value?.loading == true) {
+                unableButtons()
+                showLoading()
+            }
+            if(screenStateLiveData.value?.loading == false){
+                hideLoading()
+                ableButtons()
+            }
+        }
+    }
+
+
+    private fun showLoading(){
+        binding.progressBar.visibility = View.VISIBLE
+    }
+    private fun hideLoading(){
+        binding.progressBar.visibility = View.GONE
+    }
+    fun showServerResponse(message: String){
+        binding.textReturn.visibility = View.VISIBLE
+        binding.textReturn.text = message
+    }
+    private fun unableButtons(){
+        binding.buttonRegister.isEnabled = false
+        binding.textLogin.isEnabled = false
+    }
+    private fun ableButtons(){
+        binding.buttonRegister.isEnabled = true
+        binding.textLogin.isEnabled = true
+    }
+
+
 }
