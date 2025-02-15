@@ -1,5 +1,6 @@
 package com.example.gestiotech_v3.view.Activity
 
+import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
@@ -21,7 +22,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ////////////////////////////////////[BoilerPlate]////////////////////////////////////
         binding = ActivityMainBinding.inflate(layoutInflater)
         enableEdgeToEdge()
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
@@ -31,11 +31,23 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        ////////////////////////////////////[BoilerPlate]////////////////////////////////////
         setupButtons()
-        //ViewModel
         loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
         loginViewModel.onCreate()
+        setupObservers(this)
+    }
+
+    private fun setupButtons(){
+        binding.buttonLogin.setOnClickListener {
+            updateOnModel()
+            loginViewModel.onClickLogin()
+        }
+        binding.textRegister.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+        }
+    }
+    private fun setupObservers(context: Context){
         val screenStateLiveData = loginViewModel.screenStateLivedata
         screenStateLiveData.observe(this){
             if (screenStateLiveData.value?.isLoggedIn == true){
@@ -57,6 +69,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+    private fun updateOnModel(){
+        val screenState = loginViewModel.screenState
+        screenState.email = binding.editTextEmail.text.toString()
+        screenState.password = binding.editTextPassword.text.toString()
+        loginViewModel.screenStateLivedata.value = screenState
+    }
 
     private fun showLoading(){
         binding.progressBar.visibility = View.VISIBLE
@@ -77,21 +95,5 @@ class MainActivity : AppCompatActivity() {
     private fun showServerResponse(message: String){
         binding.textReturn.visibility = View.VISIBLE
         binding.textReturn.text = message
-    }
-    private fun setupButtons(){
-        binding.buttonLogin.setOnClickListener {
-            updateOnModel()
-            loginViewModel.onClickLogin()
-        }
-        binding.textRegister.setOnClickListener {
-            val intent = Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
-        }
-    }
-    private fun updateOnModel(){
-        val screenState = loginViewModel.screenState
-        screenState.email = binding.editTextEmail.text.toString()
-        screenState.password = binding.editTextPassword.text.toString()
-        loginViewModel.screenStateLivedata.value = screenState
     }
 }

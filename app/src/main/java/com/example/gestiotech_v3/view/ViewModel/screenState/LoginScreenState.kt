@@ -8,7 +8,6 @@ data class LoginScreenState(
     var password: String = "",
     var email: String = "",
     var message: String = "",
-    var displayState: DisplayState
 )
 
 
