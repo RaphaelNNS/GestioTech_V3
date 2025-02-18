@@ -7,13 +7,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.lifecycle.lifecycleScope
 import com.example.gestiotech_v3.R
+import com.example.gestiotech_v3.databinding.ActivityHomeBinding
+import com.example.gestiotech_v3.databinding.FragmentHomeBinding
+import com.example.gestiotech_v3.databinding.FragmentSubjectBinding
+import com.example.gestiotech_v3.model.auth.FirebaseHandler
 import com.example.gestiotech_v3.view.ViewModel.HomeViewModel
+import com.example.gestiotech_v3.view.adapter.ClientListAdapter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class HomeFragment : Fragment() {
 
     private var numero: Int = 0
     private var texto: String = ""
+    private lateinit var binding: FragmentHomeBinding
 
     companion object {
         fun newInstance() = HomeFragment()
@@ -41,9 +53,23 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view = inflater.inflate(R.layout.fragment_home, container, false)
-        var btn = view.findViewById<Button>(R.id.btnClick)
-        btn.text = texto
-        return view
+        var dbHandler = FirebaseHandler()
+        binding = FragmentHomeBinding.inflate(inflater)
+        binding.btnClick.setOnClickListener{
+            var name = binding.edName.text.toString()
+            var password =  binding.edPassword.text.toString()
+            var cpf = binding.edCPF.text.toString()
+            lifecycleScope.launch{
+                withContext(Dispatchers.Main){
+                    binding.textView.text = dbHandler.addUser(name, password, cpf)
+                }
+            }
+        }
+
+
+
+        return binding.root
     }
+
+
 }

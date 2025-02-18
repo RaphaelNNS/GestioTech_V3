@@ -20,5 +20,8 @@
         <!-- Outras customizações (exemplo: status bar) -->
         <item name="android:statusBarColor">@color/black</item>
     </style>
+    <style name="FabCustomShape" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+    </style>
 
 </resources>

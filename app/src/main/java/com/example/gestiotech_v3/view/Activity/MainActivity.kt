@@ -47,28 +47,35 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
-    private fun setupObservers(){
-        val screenStateLiveData = loginViewModel.screenStateLivedata
-        screenStateLiveData.observe(this){
-            if (screenStateLiveData.value?.isLoggedIn == true){
-                val intent = Intent(this, HomeActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
+
+
+        private fun setupObservers(){
+            val screenStateLiveData = loginViewModel.screenStateLivedata
+            screenStateLiveData.observe(this){
+                if (screenStateLiveData.value?.isLoggedIn == true){
+                    val intent = Intent(this, HomeActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                }
+                val response = screenStateLiveData.value?.message
+                if(!response.isNullOrEmpty()){
+                    showServerResponse(response)
+                }
+                if(screenStateLiveData.value?.loading == true) {
+                    unableButtons()
+                    showLoading()
+                }
+                if(screenStateLiveData.value?.loading == false){
+                    hideLoading()
+                    ableButtons()
+                }
             }
-            val response = screenStateLiveData.value?.message
-            if(!response.isNullOrEmpty()){
-                showServerResponse(response)
-            }
-            if(screenStateLiveData.value?.loading == true) {
-                unableButtons()
-                showLoading()
-            }
-            if(screenStateLiveData.value?.loading == false){
-                hideLoading()
-                ableButtons()
-            }
-        }
     }
+
+
+
+
+
     private fun updateOnModel(){
         val screenState = loginViewModel.screenState
         screenState.email = binding.editTextEmail.text.toString()

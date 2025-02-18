@@ -11,45 +11,42 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.gestiotech_v3.R
 import com.example.gestiotech_v3.databinding.ActivityHomeBinding
+import com.example.gestiotech_v3.view.Fragment.ClientListFragment
 import com.example.gestiotech_v3.view.Fragment.HomeFragment
 import com.example.gestiotech_v3.view.Fragment.SettingsFragment
+import com.example.gestiotech_v3.view.Fragment.SubjectFragment
 
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContentView(binding.root)
-        //enableEdgeToEdge()
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-
-
-
         val homeFragment = HomeFragment()
         val settingsFragment = SettingsFragment()
+        val tecListFragment = SubjectFragment()
+        val clientListFragment = ClientListFragment()
 
         makeCurrentFragment(homeFragment, null)
 
 
         binding.homeNav.setOnItemSelectedListener { item ->
             when(item.itemId){
-                R.id.ic_home -> makeCurrentFragment(homeFragment, null)
+                R.id.ic_home -> makeCurrentFragment(clientListFragment, null)
                 R.id.ic_settings -> makeCurrentFragment(settingsFragment, null)
+                R.id.ic_tecList -> makeCurrentFragment(tecListFragment, null)
             }
             true
         }
-
-
     }
 
 
