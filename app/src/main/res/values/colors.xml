@@ -6,4 +6,6 @@
     <color name="darkGray">#333333</color>
     <color name="mediumGray">#757575</color>
     <color name="lightGray">#BDBDBD</color>
+
+    <color name="red">#ff0200</color>
 </resources>

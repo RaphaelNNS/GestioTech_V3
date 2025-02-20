@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".view.Fragment.SettingsFragment"
+    tools:context=".presentation.Fragment.SettingsFragment"
     android:background="?android:attr/colorBackground">
 
     <!-- ScrollView para garantir rolagem caso necessário -->

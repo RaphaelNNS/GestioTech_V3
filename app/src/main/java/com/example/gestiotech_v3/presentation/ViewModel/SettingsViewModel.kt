@@ -1,0 +1,6 @@
+package com.example.gestiotech_v3.presentation.ViewModel
+
+import androidx.lifecycle.ViewModel
+
+class SettingsViewModel : ViewModel() {
+}

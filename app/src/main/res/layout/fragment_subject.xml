@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:id="@+id/fragment_subject"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".view.Fragment.SubjectFragment">
+    tools:context=".presentation.Fragment.SubjectFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

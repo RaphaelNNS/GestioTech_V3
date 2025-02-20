@@ -7,12 +7,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".view.Activity.HomeActivity">
+    tools:context=".presentation.Activity.HomeActivity">
 
     <!-- Container do Fragmento -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_home"
-        android:name="com.example.gestiotech_v3.view.Fragment.HomeFragment"
+        android:name="com.example.gestiotech_v3.presentation.Fragment.HomeFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:paddingBottom="8dp"

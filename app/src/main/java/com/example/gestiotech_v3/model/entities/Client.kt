@@ -4,7 +4,9 @@ data class Client(
     val id: String = "",
     val name: String = "",
     val documentNumber: String = "",
-    val password: String = ""
+    val adress: String = "",
+    val phoneNumber: String = "",
+    val description: String = ""
 ){
-    constructor() : this("", "", "", "")
+    constructor() : this("", "", "", "", "", "")
 }
