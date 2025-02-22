@@ -23,7 +23,7 @@ class ClientListViewModel : ViewModel() {
             try {
                 screenState.clientlistDisplayState = DisplayState.Loading
                 val clients = firebaseHandler.getClients()
-                screenState.clientlistDisplayState = DisplayState.Sucess(clients)
+                screenState.clientlistDisplayState = DisplayState.Success(clients)
             }catch (e: Exception){
                 screenState.clientlistDisplayState = DisplayState.Error(e)
             }finally {

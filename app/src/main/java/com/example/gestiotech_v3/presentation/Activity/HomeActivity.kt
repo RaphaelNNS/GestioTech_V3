@@ -8,6 +8,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.example.gestiotech_v3.R
 import com.example.gestiotech_v3.databinding.ActivityHomeBinding
+import com.example.gestiotech_v3.model.entities.Client
 import com.example.gestiotech_v3.presentation.Fragment.ClientListFragment
 import com.example.gestiotech_v3.presentation.Fragment.HomeFragment
 import com.example.gestiotech_v3.presentation.Fragment.SettingsFragment
@@ -38,10 +39,10 @@ class HomeActivity : AppCompatActivity() {
 
         binding.homeNav.setOnItemSelectedListener { item ->
             when(item.itemId){
-                R.id.ic_home -> makeCurrentFragment(homeFragment, null)
-                R.id.ic_settings -> makeCurrentFragment(settingsFragment, null)
-                R.id.ic_tecList -> makeCurrentFragment(tecListFragment, null)
-                R.id.ic_clients -> makeCurrentFragment(clientListFragment, null)
+                R.id.ic_home -> makeCurrentFragment(HomeFragment(), null)
+                R.id.ic_settings -> makeCurrentFragment(SettingsFragment(), null)
+                R.id.ic_tecList -> makeCurrentFragment(TecListFragment(), null)
+                R.id.ic_clients -> makeCurrentFragment(ClientListFragment(), null)
             }
             true
         }

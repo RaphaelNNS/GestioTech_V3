@@ -7,7 +7,7 @@ sealed interface DisplayState {
     data class Error(
         val exception: Exception
     ) : DisplayState
-    data class Sucess(
+    data class Success(
         val clientList: List<Client>
     ): DisplayState
 }

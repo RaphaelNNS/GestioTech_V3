@@ -44,6 +44,16 @@ class ClientListFragment : Fragment() {
         binding.floatingActionButton.setOnClickListener{
             callAddClientFragment()
         }
+        binding.floatingButtonUpdateList.setOnClickListener{
+            viewModel.getClients()
+//            when(val state = viewModel.screenState.clientlistDisplayState){
+//                is DisplayState.Success -> showList(state.clientList)
+//                is DisplayState.Error -> showError("Erro ao resgatar a lista")
+//                DisplayState.Loading -> showError("Erro ao resgatar a lista")
+//                null -> Unit
+//            }
+
+        }
 
 
         return binding.root
@@ -57,7 +67,7 @@ class ClientListFragment : Fragment() {
     private fun setupObserver(screenStateLiveData: MutableLiveData<ClientListScreenState>) {
         screenStateLiveData.observe(viewLifecycleOwner) { screenState ->
             when (val displayState = screenState.clientlistDisplayState) {
-                is DisplayState.Sucess -> {
+                is DisplayState.Success -> {
                     showLoading(false)
                     showList(displayState.clientList)
                 }

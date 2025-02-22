@@ -3,46 +3,60 @@ package com.example.gestiotech_v3.presentation.ViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.gestiotech_v3.model.repository.FirebaseHandler
+import com.example.gestiotech_v3.data.repository.IClientRepository
 import com.example.gestiotech_v3.model.entities.Client
 import com.example.gestiotech_v3.presentation.ViewModel.screenState.AddClientScreenState
+import com.example.gestiotech_v3.presentation.ViewModel.screenState.displayState.UiMessage
 import kotlinx.coroutines.launch
 
-class AddClientViewModel : ViewModel() {
+class AddClientViewModel(
+    private val  clientRepository: IClientRepository
+) : ViewModel() {
 
-    var firebaseHandler: FirebaseHandler = FirebaseHandler()
 
     val addClientListScreenStateLiveData = MutableLiveData<AddClientScreenState>()
-    val addClientListScreenState = AddClientScreenState()
+    val screenState = AddClientScreenState()
+
+    init {
+        screenState.isLoading = true
+        screenState.uiMessage = UiMessage.None
+    }
 
     fun addClient(client: Client){
-        if (!checkClient(client)) return
         viewModelScope.launch {
-            addClientListScreenState.isLoading = true
-            updateLivedData()
-            try {
-                firebaseHandler.addClient(client)
-            }catch (e: Exception){
-                addClientListScreenState.errorMessage = e.message.toString()
-                updateLivedData()
-            }finally {
-                addClientListScreenState.isLoading = false
-                updateLivedData()
+            screenState.isLoading = true
+            kotlin.runCatching {
+                clientRepository.addClient(client)
+            }.onSuccess { client ->
+                showSuccess(client)
+            }.onFailure { e ->
+                showError(e)
             }
         }
     }
 
-    fun checkClient(client: Client): Boolean {
-        if(client.name.isEmpty()) {
-            return false
-        }
-        return true
+    fun cleanScreenStateFields(){
+        screenState.adress = ""
+        screenState.name = ""
+        screenState.description = ""
+        screenState.documentNumber = ""
+        screenState.phoneNumber = ""
     }
 
-
-
-
     fun updateLivedData(){
-        addClientListScreenStateLiveData.value = addClientListScreenState
+        addClientListScreenStateLiveData.value = screenState
+    }
+
+    fun showError(e: Throwable){
+        screenState.isLoading = false
+        screenState.uiMessage = UiMessage.Failure(e.message.toString())
+        updateLivedData()
+    }
+
+    fun showSuccess(client: Client){
+        screenState.isLoading = false
+        cleanScreenStateFields()
+        screenState.uiMessage = UiMessage.Success("CLIENT ${client.name} SUCCESSFULLY ADDED")
+        updateLivedData()
     }
 }
