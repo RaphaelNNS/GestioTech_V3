@@ -6,7 +6,7 @@ import kotlinx.coroutines.tasks.await
 
 class ClientRepositoryFirestore: IClientRepository {
 
-    suspend fun getClients(): List<Client> {
+    override suspend fun getClients(): List<Client> {
         val dataBase = FirebaseFirestore.getInstance()
 
         val clients = ArrayList<Client>()
@@ -20,7 +20,7 @@ class ClientRepositoryFirestore: IClientRepository {
         return clients
     }
 
-    override suspend fun addClient(client: Client): Client {
+    override suspend fun addClient(client: Client): Client{
         val dataBase = FirebaseFirestore.getInstance()
         val mapClient = mapOf(
             "name" to client.name,

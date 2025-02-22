@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.gestiotech_v3.R
 import com.example.gestiotech_v3.databinding.ActivityMainBinding
 import com.example.gestiotech_v3.presentation.ViewModel.LoginViewModel
+import com.google.firebase.firestore.FirebaseFirestore
 
 class MainActivity : AppCompatActivity() {
 
@@ -101,4 +102,5 @@ class MainActivity : AppCompatActivity() {
         binding.textReturn.visibility = View.VISIBLE
         binding.textReturn.text = message
     }
+
 }

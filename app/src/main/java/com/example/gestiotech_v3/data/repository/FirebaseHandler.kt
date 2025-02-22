@@ -39,46 +39,6 @@ class FirebaseHandler {
         }
     }
 
-    suspend fun getClients(): List<Client> {
-        val dataBase = FirebaseFirestore.getInstance()
-        try {
-            val clients = ArrayList<Client>()
-            val result = dataBase.collection("Clients").get().await()
-
-            result.documents.mapNotNull { document ->
-                val client = document.toObject(Client::class.java)
-                client?.let { clients.add(it) } // Adiciona o client se não for nulo
-            }
-
-            return clients
-        }catch (e: Exception){
-            throw e
-        }
-    }
-
-    suspend fun addClient(client: Client): String {
-        val dataBase = FirebaseFirestore.getInstance()
-        val cliente = mapOf(
-            "name" to client.name,
-            "documentNumber" to client.documentNumber,
-            "phoneNumber" to client.phoneNumber,
-            "description" to client.description,
-            "adress" to client.adress
-
-
-        )
-        try {
-            dataBase
-                .collection("Clients")
-                .add(cliente)
-                .await()
-
-            return cliente.toString()
-        }catch (e:Exception){
-            throw e
-        }
-    }
-
     fun logOut(){
         val auth = FirebaseAuth.getInstance()
         auth.signOut()

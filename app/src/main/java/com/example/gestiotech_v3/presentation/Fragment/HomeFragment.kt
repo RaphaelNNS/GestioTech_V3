@@ -46,19 +46,7 @@ class   HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        var dbHandler = FirebaseHandler()
         binding = FragmentHomeBinding.inflate(inflater)
-        binding.btnClick.setOnClickListener{
-            var name = binding.edName.text.toString()
-            var password =  binding.edPassword.text.toString()
-            var cpf = binding.edCPF.text.toString()
-            lifecycleScope.launch{
-                withContext(Dispatchers.Main){
-                }
-            }
-        }
-
-
 
         return binding.root
     }

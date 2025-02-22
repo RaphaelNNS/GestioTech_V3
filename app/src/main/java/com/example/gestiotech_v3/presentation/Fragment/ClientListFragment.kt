@@ -11,9 +11,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gestiotech_v3.R
+import com.example.gestiotech_v3.data.repository.ClientRepositoryFirestore
 import com.example.gestiotech_v3.databinding.FragmentClientListBinding
 import com.example.gestiotech_v3.model.entities.Client
 import com.example.gestiotech_v3.presentation.ViewModel.ClientListViewModel
+import com.example.gestiotech_v3.presentation.ViewModel.factory.ClientListViewModelFactory
 import com.example.gestiotech_v3.presentation.ViewModel.screenState.ClientListScreenState
 import com.example.gestiotech_v3.presentation.ViewModel.screenState.displayState.DisplayState
 import com.example.gestiotech_v3.presentation.adapter.ClientListAdapter
@@ -24,12 +26,9 @@ class ClientListFragment : Fragment() {
     private var texto: String = ""
     private lateinit var binding: FragmentClientListBinding
     private lateinit var recycler: RecyclerView
-
-    companion object {
-        fun newInstance() = ClientListFragment()
+    private val viewModel: ClientListViewModel by viewModels {
+        ClientListViewModelFactory(ClientRepositoryFirestore())
     }
-
-    private val viewModel: ClientListViewModel by viewModels()
 
 
     override fun onCreateView(
