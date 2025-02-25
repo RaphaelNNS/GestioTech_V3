@@ -7,7 +7,7 @@ data class Client(
     var id: String = "",
     val name: String = "",
     val documentNumber: String = "",
-    val adress: String = "",
+    val address: String = "",
     val phoneNumber: String = "",
     val description: String = ""
 ): Parcelable{
@@ -27,7 +27,7 @@ data class Client(
         parcel.writeString(id)
         parcel.writeString(name)
         parcel.writeString(documentNumber)
-        parcel.writeString(adress)
+        parcel.writeString(address)
         parcel.writeString(phoneNumber)
         parcel.writeString(description)
     }

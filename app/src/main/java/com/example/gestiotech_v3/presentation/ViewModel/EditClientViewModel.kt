@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gestiotech_v3.data.repository.IClientRepository
-import com.example.gestiotech_v3.presentation.Activity.EditClientActivity
+import com.example.gestiotech_v3.model.entities.Client
 import com.example.gestiotech_v3.presentation.ViewModel.screenState.EditClientActivityScreenState
 import kotlinx.coroutines.launch
 
@@ -12,41 +12,45 @@ class EditClientViewModel(
     private val clientRepository: IClientRepository
 ) : ViewModel() {
 
-    var screenState = EditClientActivityScreenState()
-    var screenStateLiveData = MutableLiveData<EditClientActivityScreenState>()
+    private val screenState = MutableLiveData(EditClientActivityScreenState())
+    val screenStateLiveData: MutableLiveData<EditClientActivityScreenState> = screenState
 
-    init {
-        screenStateLiveData.value = screenState // Inicializa o LiveData corretamente
+    fun setClient(client: Client) {
+        screenState.value = screenState.value?.copy(client = client)
     }
 
     fun editClient() {
-        updateLivedata()
+        val currentState = screenState.value ?: return
+        val client = currentState.client ?: run {
+            updateState(errorMessage = "Erro: Cliente não encontrado.")
+            return
+        }
+
+        updateState(isLoading = true)
+
         viewModelScope.launch {
-            screenState.isLoading = true
-            updateLivedata()
-
-            val client = screenState.client
-            if (client == null) {
-                screenState.errorMessage = "Erro: Cliente não encontrado."
-                screenState.isLoading = false
-                updateLivedata()
-                return@launch
-            }
-
             kotlin.runCatching {
                 clientRepository.editCLients(client, client.id)
             }.onSuccess {
-                screenState.errorMessage = "Cliente atualizado com sucesso."
+                updateState(errorMessage = "Cliente atualizado com sucesso.")
             }.onFailure { e ->
-                screenState.errorMessage = e.message ?: "Erro desconhecido ao salvar."
+                updateState(errorMessage = e.message ?: "Erro desconhecido ao salvar.")
             }
 
-            screenState.isLoading = false
-            updateLivedata()
+            updateState(isLoading = false)
         }
     }
 
-    private fun updateLivedata() {
-        screenStateLiveData.postValue(screenState)
+    private fun updateState(
+        isLoading: Boolean? = null,
+        errorMessage: String? = null
+    ) {
+        val currentState = screenState.value ?: return
+        screenState.postValue(
+            currentState.copy(
+                isLoading = isLoading ?: currentState.isLoading,
+                errorMessage = errorMessage ?: currentState.errorMessage
+            )
+        )
     }
 }

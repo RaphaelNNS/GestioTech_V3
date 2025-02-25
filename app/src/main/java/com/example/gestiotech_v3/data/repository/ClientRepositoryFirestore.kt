@@ -17,7 +17,7 @@ class ClientRepositoryFirestore: IClientRepository {
             client?.let {
                 client.id = document.id
                 clients.add(it)
-            } // Adiciona o client se não for nulo
+            }
         }
 
         return clients
@@ -40,7 +40,7 @@ class ClientRepositoryFirestore: IClientRepository {
             "documentNumber" to client.documentNumber,
             "phoneNumber" to client.phoneNumber,
             "description" to client.description,
-            "adress" to client.adress
+            "address" to client.address
 
 
         )
