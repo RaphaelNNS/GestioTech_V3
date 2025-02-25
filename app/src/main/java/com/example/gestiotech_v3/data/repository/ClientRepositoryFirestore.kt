@@ -13,11 +13,24 @@ class ClientRepositoryFirestore: IClientRepository {
         val result = dataBase.collection("Clients").get().await()
 
         result.documents.mapNotNull { document ->
-            val client = document.toObject(Client::class.java)
-            client?.let { clients.add(it) } // Adiciona o client se não for nulo
+            var client = document.toObject(Client::class.java)
+            client?.let {
+                client.id = document.id
+                clients.add(it)
+            } // Adiciona o client se não for nulo
         }
 
         return clients
+    }
+
+    override suspend fun editCLients(client: Client, id: String) {
+        val dataBase = FirebaseFirestore.getInstance()
+
+        dataBase
+            .collection("Clients")
+            .document(id)
+            .set(client)
+            .await()
     }
 
     override suspend fun addClient(client: Client): Client{

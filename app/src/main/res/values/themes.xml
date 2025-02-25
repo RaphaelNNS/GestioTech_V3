@@ -20,8 +20,18 @@
         <!-- Outras customizações (exemplo: status bar) -->
         <item name="android:statusBarColor">@color/black</item>
     </style>
+
     <style name="FabCustomShape" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">rounded</item>
     </style>
+
+    <style name="Base.Theme.GestioTech_V3..NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Base.Theme.GestioTech_V3..AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Base.Theme.GestioTech_V3..PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>
