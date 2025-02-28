@@ -30,7 +30,7 @@ class EditClientViewModel(
 
         viewModelScope.launch {
             kotlin.runCatching {
-                clientRepository.editCLients(client, client.id)
+                clientRepository.editCLients(client)
             }.onSuccess {
                 updateState(errorMessage = "Cliente atualizado com sucesso.")
             }.onFailure { e ->

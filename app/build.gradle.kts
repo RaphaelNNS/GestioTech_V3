@@ -55,6 +55,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.firebase.auth.ktx)
+    implementation(libs.androidx.junit.ktx)
+    implementation(libs.androidx.runner)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -73,5 +75,17 @@ dependencies {
     // https://firebase.google.com/docs/android/setup#available-libraries
 
     implementation ("com.google.firebase:firebase-firestore-ktx:24.10.0")
+    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:")
+
+
+    testImplementation (libs.core.testing)
+    testImplementation (libs.core.testing)
+    testImplementation (libs.kotlinx.coroutines.test)
+    androidTestImplementation (libs.androidx.junit.v115)
+    androidTestImplementation (libs.androidx.espresso.core.v351)
+    androidTestImplementation (libs.core.testing)
+    androidTestImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    androidTestImplementation ("com.google.truth:truth:1.1.3")
+
 
 }

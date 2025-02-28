@@ -5,11 +5,11 @@ import android.os.Parcelable
 
 data class Client(
     var id: String = "",
-    val name: String = "",
-    val documentNumber: String = "",
-    val address: String = "",
-    val phoneNumber: String = "",
-    val description: String = ""
+    var name: String = "",
+    var documentNumber: String = "",
+    var address: String = "",
+    var phoneNumber: String = "",
+    var description: String = ""
 ): Parcelable{
     constructor(parcel: Parcel) : this(
         parcel.readString().toString(),

@@ -5,6 +5,6 @@ import com.example.gestiotech_v3.model.entities.Client
 interface IClientRepository {
     abstract suspend fun addClient(client: Client): Client
     abstract suspend fun getClients(): List<Client>
-    suspend fun editCLients(client: Client, id: String)
+    suspend fun editCLients(client: Client)
 
 }
