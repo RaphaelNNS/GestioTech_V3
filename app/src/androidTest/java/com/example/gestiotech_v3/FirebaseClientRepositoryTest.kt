@@ -63,6 +63,20 @@ class FirebaseClientRepositoryTest {
         assertThat(clients).contains(client)
     }
 
+    @Test
+    fun deleteClient() = runTest {
+
+        val client = repository.addClient(Client("", "#Name#",
+            "#DocumentNumber#", "#Adress#",
+            "#PhoneNumber#", "#Description#"))
+
+        repository.deleteCLients(client.id)
+
+        delay(2000)
+        val clients = repository.getClients()
+        assertThat(clients).doesNotContain(client)
+    }
+
 
 
 }

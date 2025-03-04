@@ -15,20 +15,19 @@ import com.example.gestiotech_v3.data.repository.ClientRepositoryFirestore
 import com.example.gestiotech_v3.databinding.FragmentClientListBinding
 import com.example.gestiotech_v3.model.entities.Client
 import com.example.gestiotech_v3.presentation.ViewModel.ClientListViewModel
-import com.example.gestiotech_v3.presentation.ViewModel.factory.ClientListViewModelFactory
 import com.example.gestiotech_v3.presentation.ViewModel.screenState.ClientListScreenState
 import com.example.gestiotech_v3.presentation.ViewModel.screenState.displayState.DisplayState
 import com.example.gestiotech_v3.presentation.adapter.ClientListAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ClientListFragment : Fragment() {
 
     private var numero: Int = 0
     private var texto: String = ""
     private lateinit var binding: FragmentClientListBinding
     private lateinit var recycler: RecyclerView
-    private val viewModel: ClientListViewModel by viewModels {
-        ClientListViewModelFactory(ClientRepositoryFirestore())
-    }
+    private val viewModel: ClientListViewModel by viewModels()
 
 
     override fun onCreateView(

@@ -10,6 +10,9 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
+    plugins {
+        id ("com.android.application")
+    }
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
@@ -21,4 +24,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "GestioTech_V3"
 include(":app")
- 

@@ -5,15 +5,14 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
-class ClientRepositoryFirestore: IClientRepository {
+class ClientRepositoryFirestore @Inject constructor(): IClientRepository {
 
     override suspend fun getClients(): List<Client> {
         val dataBase = FirebaseFirestore.getInstance()
 
-        val clients = ArrayList<Client>(
-
-        )
+        val clients = ArrayList<Client>()
         val result = dataBase.collection("Clients").get().await()
 
         result.documents.mapNotNull { document ->
@@ -45,6 +44,12 @@ class ClientRepositoryFirestore: IClientRepository {
             .document(client.id)
             .set(mapClient, SetOptions.merge())
             .await()
+    }
+
+    override fun deleteCLients(id: String) {
+        val dataBase = FirebaseFirestore.getInstance()
+
+        dataBase.collection("Clients").document(id).delete()
     }
 
     /**

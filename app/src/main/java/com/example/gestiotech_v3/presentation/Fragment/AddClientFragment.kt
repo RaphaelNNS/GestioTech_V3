@@ -12,15 +12,16 @@ import com.example.gestiotech_v3.data.repository.ClientRepositoryFirestore
 import com.example.gestiotech_v3.databinding.FragmentAddClientBinding
 import com.example.gestiotech_v3.model.entities.Client
 import com.example.gestiotech_v3.presentation.ViewModel.AddClientViewModel
-import com.example.gestiotech_v3.presentation.ViewModel.factory.AddClientViewModelFactory
 import com.example.gestiotech_v3.presentation.ViewModel.screenState.displayState.UiMessage
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class  AddClientFragment : Fragment() {
 
     private lateinit var binding: FragmentAddClientBinding
-    private val viewModel: AddClientViewModel by viewModels {
-        AddClientViewModelFactory(ClientRepositoryFirestore())
-    }
+    private val viewModel: AddClientViewModel by viewModels()
+
 
 
     override fun onCreateView(

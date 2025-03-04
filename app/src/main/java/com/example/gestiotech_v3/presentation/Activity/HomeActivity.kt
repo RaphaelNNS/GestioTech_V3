@@ -16,7 +16,9 @@ import com.example.gestiotech_v3.presentation.Fragment.SettingsFragment
 import com.example.gestiotech_v3.presentation.ViewModel.HomeViewModel
 import com.example.gestiotech_v3.presentation.ViewModel.LoginViewModel
 import com.example.gestiotech_v3.presentation.ViewModel.TecListFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding

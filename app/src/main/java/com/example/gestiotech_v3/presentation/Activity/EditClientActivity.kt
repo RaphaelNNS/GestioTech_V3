@@ -9,15 +9,15 @@ import com.example.gestiotech_v3.data.repository.ClientRepositoryFirestore
 import com.example.gestiotech_v3.databinding.ActivityEditClientBinding
 import com.example.gestiotech_v3.model.entities.Client
 import com.example.gestiotech_v3.presentation.ViewModel.EditClientViewModel
-import com.example.gestiotech_v3.presentation.ViewModel.factory.EditClientViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class EditClientActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEditClientBinding
     private lateinit var client: Client
-    private val viewModel: EditClientViewModel by viewModels {
-        EditClientViewModelFactory(ClientRepositoryFirestore())
-    }
+    private val viewModel: EditClientViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

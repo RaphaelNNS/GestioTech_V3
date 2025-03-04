@@ -7,9 +7,12 @@ import com.example.gestiotech_v3.data.repository.IClientRepository
 import com.example.gestiotech_v3.model.repository.FirebaseHandler
 import com.example.gestiotech_v3.presentation.ViewModel.screenState.ClientListScreenState
 import com.example.gestiotech_v3.presentation.ViewModel.screenState.displayState.DisplayState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ClientListViewModel(
+@HiltViewModel
+class ClientListViewModel @Inject constructor(
     private val  clientRepository: IClientRepository
 ) : ViewModel() {
 

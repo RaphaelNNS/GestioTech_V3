@@ -1,7 +1,9 @@
 package com.example.gestiotech_v3
 
 import com.google.firebase.firestore.FirebaseFirestore
+import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
 object RegistrationUtil {
 

@@ -6,9 +6,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.gestiotech_v3.data.repository.IClientRepository
 import com.example.gestiotech_v3.model.entities.Client
 import com.example.gestiotech_v3.presentation.ViewModel.screenState.EditClientActivityScreenState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class EditClientViewModel(
+@HiltViewModel
+class EditClientViewModel @Inject constructor(
     private val clientRepository: IClientRepository
 ) : ViewModel() {
 
