@@ -2,6 +2,7 @@ package com.example.gestiotech_v3.presentation.Activity
 
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -22,7 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
-    private lateinit var viewModel: HomeViewModel
+    private  val viewModel: HomeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +36,6 @@ class HomeActivity : AppCompatActivity() {
             insets
         }
 
-        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         setupObserver()
 
         val homeFragment = HomeFragment()

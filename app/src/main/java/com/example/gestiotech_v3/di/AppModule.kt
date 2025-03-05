@@ -17,4 +17,6 @@ object AppModule {
     fun providesRepo(): IClientRepository  {
         return ClientRepositoryFirestore()
     }
+
+
 }

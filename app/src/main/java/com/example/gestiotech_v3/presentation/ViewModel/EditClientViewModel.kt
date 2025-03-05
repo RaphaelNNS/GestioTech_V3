@@ -15,45 +15,58 @@ class EditClientViewModel @Inject constructor(
     private val clientRepository: IClientRepository
 ) : ViewModel() {
 
-    private val screenState = MutableLiveData(EditClientActivityScreenState())
-    val screenStateLiveData: MutableLiveData<EditClientActivityScreenState> = screenState
+    private var screenState = EditClientActivityScreenState()
+    val screenStateLiveData: MutableLiveData<EditClientActivityScreenState> = MutableLiveData()
+
+    init {
+        screenStateLiveData.value = screenState
+    }
 
     fun setClient(client: Client) {
-        screenState.value = screenState.value?.copy(client = client)
+        screenState.client = client
+        updateLiveData()
     }
 
     fun editClient() {
-        val currentState = screenState.value ?: return
-        val client = currentState.client ?: run {
-            updateState(errorMessage = "Erro: Cliente não encontrado.")
-            return
-        }
+        var client = screenState.client
 
-        updateState(isLoading = true)
+        screenState.isLoading = true
+        updateLiveData()
 
         viewModelScope.launch {
             kotlin.runCatching {
                 clientRepository.editCLients(client)
             }.onSuccess {
-                updateState(errorMessage = "Cliente atualizado com sucesso.")
+                screenState.errorMessage = "Cliente atualizado com sucesso."
+                updateLiveData()
             }.onFailure { e ->
-                updateState(errorMessage = e.message ?: "Erro desconhecido ao salvar.")
+                screenState.errorMessage = e.message ?: "Erro desconhecido ao salvar."
+                updateLiveData()
             }
 
-            updateState(isLoading = false)
+            screenState.isLoading = false
+            updateLiveData()
         }
     }
 
-    private fun updateState(
-        isLoading: Boolean? = null,
-        errorMessage: String? = null
-    ) {
-        val currentState = screenState.value ?: return
-        screenState.postValue(
-            currentState.copy(
-                isLoading = isLoading ?: currentState.isLoading,
-                errorMessage = errorMessage ?: currentState.errorMessage
-            )
-        )
+    private fun updateLiveData() {
+        val currentState = screenState
+        screenStateLiveData.postValue(screenState)
     }
+
+    fun deleteClient(){
+
+        var clientId = screenState.client.id
+
+        kotlin.runCatching {
+            clientRepository.deleteCLients(clientId)
+        }.onSuccess {
+            screenState.isClientDone = true
+            updateLiveData()
+        }.onFailure {
+            screenState.errorMessage = "Erro ao exlcuir o cliente \n Operação não efetuada"
+        }
+    }
+
+
 }

@@ -27,10 +27,16 @@ class EditClientActivity : AppCompatActivity() {
         client = intent.getParcelableExtra("client") ?: Client()
         viewModel.setClient(client)
 
+
         fillEditTexts()
         setupButtons()
+        setupObserver()
 
+    }
+
+    private fun setupObserver() {
         viewModel.screenStateLiveData.observe(this) { screenState ->
+            if (screenState.isClientDone) finish()
             binding.textErrorMessage.text = screenState.errorMessage
             showLoading(screenState.isLoading)
             freezeInterface(screenState.isLoading)
@@ -51,7 +57,12 @@ class EditClientActivity : AppCompatActivity() {
             updateOnModel()
             showEditConfirmationDialog()
         }
+        binding.buttonDeleteClient.setOnClickListener {
+            showEditDeleteConfirmationDialog()
+        }
     }
+
+
 
     private fun updateOnModel() {
         val editedClient = Client(
@@ -85,6 +96,21 @@ class EditClientActivity : AppCompatActivity() {
             .setNegativeButton("Cancelar", null)
             .show()
     }
+
+
+    private fun showEditDeleteConfirmationDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Confirmar exclusão")
+            .setMessage("Tem certeza de que deseja excluir este cliente?")
+            .setPositiveButton("Sim") { _, _ ->
+                updateOnModel()
+                viewModel.deleteClient()
+                finish()
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
+    }
+
 
 
 
