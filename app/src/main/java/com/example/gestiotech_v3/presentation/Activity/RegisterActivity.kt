@@ -4,10 +4,10 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModelProvider
 import com.example.gestiotech_v3.R
 import com.example.gestiotech_v3.databinding.ActivityRegisterBinding
 import com.example.gestiotech_v3.presentation.ViewModel.LoginViewModel
@@ -16,7 +16,7 @@ import com.example.gestiotech_v3.presentation.ViewModel.RegisterViewModel
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
-    private lateinit var registerViewModel: RegisterViewModel
+    private val registerViewModel: RegisterViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +29,6 @@ class RegisterActivity : AppCompatActivity() {
             insets
         }
         setupButtons()
-        registerViewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
         setupObservers()
     }
 
@@ -47,6 +46,7 @@ class RegisterActivity : AppCompatActivity() {
         registerViewModel.screenState.email = binding.editTextEmail.text.toString()
         registerViewModel.screenState.password = binding.editTextPassword.text.toString()
         registerViewModel.screenState.confirmPassword = binding.editTextConfirmPassword.text.toString()
+        registerViewModel.screenState.name = binding.editTextUserName.text.toString()
         registerViewModel.updateLiveData()
     }
 

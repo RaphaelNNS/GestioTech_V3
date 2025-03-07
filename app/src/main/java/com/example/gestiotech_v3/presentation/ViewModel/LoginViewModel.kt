@@ -3,6 +3,7 @@ package com.example.gestiotech_v3.presentation.ViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.gestiotech_v3.data.repository.UserRepositoryFirestore
 import com.example.gestiotech_v3.model.repository.FirebaseHandler
 import com.example.gestiotech_v3.presentation.ViewModel.screenState.LoginScreenState
 import com.google.firebase.auth.FirebaseAuth
@@ -10,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel: ViewModel() {
 
-    private var firebaseHandler: FirebaseHandler = FirebaseHandler()
+    private var repository: UserRepositoryFirestore = UserRepositoryFirestore()
 
     val screenStateLivedata = MutableLiveData<LoginScreenState>()
     var screenState = LoginScreenState()
@@ -28,7 +29,7 @@ class LoginViewModel: ViewModel() {
             screenState.loading = true
             updateLiveData()
             try {
-                val result = firebaseHandler.loginEmailPassword(screenState.email, screenState.password)
+                val result = repository.loginEmailPassword(screenState.email, screenState.password)
                 if (result != null){
                     screenState.isLoggedIn = true
                     updateLiveData()

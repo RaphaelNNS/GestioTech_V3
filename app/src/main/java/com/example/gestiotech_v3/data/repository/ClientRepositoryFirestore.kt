@@ -53,7 +53,7 @@ class ClientRepositoryFirestore @Inject constructor(): IClientRepository {
     }
 
     /**
-     * The passed client ID is redundant; an ID will be created automatically.
+     * The provided client ID is redundant; an ID will be automatically generated.
      * */
     override suspend fun addClient(client: Client): Client{
         val dataBase = FirebaseFirestore.getInstance()

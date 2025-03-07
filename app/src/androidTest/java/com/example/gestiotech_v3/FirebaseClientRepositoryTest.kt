@@ -25,7 +25,8 @@ class FirebaseClientRepositoryTest {
     private lateinit var database: FirebaseFirestore
     private lateinit var repository: ClientRepositoryFirestore
 
-    @get:Rule
+    @JvmField
+    @Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Before
@@ -46,6 +47,8 @@ class FirebaseClientRepositoryTest {
 
 
         assertThat(clients).contains(client)
+
+        repository.deleteCLients(client.id)
     }
 
     @Test
@@ -61,6 +64,8 @@ class FirebaseClientRepositoryTest {
         delay(2000)
         val clients = repository.getClients()
         assertThat(clients).contains(client)
+
+        repository.deleteCLients(client.id)
     }
 
     @Test

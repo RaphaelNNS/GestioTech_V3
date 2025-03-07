@@ -3,13 +3,13 @@ package com.example.gestiotech_v3.presentation.ViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.gestiotech_v3.model.repository.FirebaseHandler
+import com.example.gestiotech_v3.data.repository.UserRepositoryFirestore
 import com.example.gestiotech_v3.presentation.ViewModel.screenState.RegisterScreenState
 import kotlinx.coroutines.launch
 
 class RegisterViewModel: ViewModel() {
 
-    var firebaseHandler: FirebaseHandler = FirebaseHandler()
+    var repository: UserRepositoryFirestore = UserRepositoryFirestore()
 
     val screenStateLiveData = MutableLiveData<RegisterScreenState>()
     var screenState = RegisterScreenState()
@@ -23,11 +23,13 @@ class RegisterViewModel: ViewModel() {
             screenState.loading = true
             updateLiveData()
             try {
-                var result = firebaseHandler.registerEmailPassword(screenState.email, screenState.password)
+                var result = repository.registerEmailPassword(screenState.email, screenState.password, screenState.name)
                 screenState.message = result.toString()
                 screenState.isLoggedIn = true
+            }catch (e: IllegalArgumentException){
+                screenState.message = "Preencha todos os campos"
             }catch (e: Exception){
-                screenState.message = e.message.toString()
+                screenState.message = "Erro ao cadastrar o usuario"
             }finally {
                 screenState.loading = false
                 updateLiveData()
