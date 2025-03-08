@@ -13,19 +13,19 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="resgister users with email and password and save their information on database()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="when register an user, user infos shoulg be saved on &quot;users&quot; collection()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="FirestoreUserRepositoryTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="when_register_an_user_infos_should_be_saved_on_users_collection()">
+      <SelectionState runConfigName="getTechnicians()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="FirebaseClientRepositoryTest">
+      <SelectionState runConfigName="FirestoreTechnicianRepositoryTest">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="addTechnician()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="roda()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

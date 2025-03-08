@@ -7,27 +7,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.gestiotech_v3.data.repository.IUserRepository
 import com.example.gestiotech_v3.databinding.FragmentSettingsBinding
 import com.example.gestiotech_v3.model.repository.FirebaseHandler
 import com.example.gestiotech_v3.presentation.Activity.MainActivity
 import com.example.gestiotech_v3.presentation.ViewModel.SettingsViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class SettingsFragment : Fragment() {
+@AndroidEntryPoint
+class SettingsFragment() : Fragment() {
 
-    private lateinit var firebaseHandler: FirebaseHandler
-
-    companion object {
-        fun newInstance() = SettingsFragment()
-    }
 
     private val viewModel: SettingsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        firebaseHandler = FirebaseHandler()
-
-        // TODO: Use the ViewModel
 
     }
 
@@ -42,7 +36,7 @@ class SettingsFragment : Fragment() {
     }
 
     fun logOut() {
-        firebaseHandler.logOut()
+        viewModel.logOut()
         val intent = Intent(requireContext(), MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
