@@ -2,12 +2,12 @@ package com.example.gestiotech_v3.presentation.ViewModel.screenState.displayStat
 
 import com.example.gestiotech_v3.model.entities.Client
 
-sealed interface DisplayState {
-    data object Loading: DisplayState
+sealed interface ClientDisplayState {
+    data object Loading: ClientDisplayState
     data class Error(
         val exception: Exception
-    ) : DisplayState
+    ) : ClientDisplayState
     data class Success(
         val clientList: List<Client>
-    ): DisplayState
+    ): ClientDisplayState
 }

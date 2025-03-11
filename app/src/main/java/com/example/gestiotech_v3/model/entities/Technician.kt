@@ -4,10 +4,10 @@ data class Technician(
     var name: String = "",
     var description: String = "",
     var email: String = "",
-    var password: String = "",
     var phoneNumber: String = "",
     var documentNumber: String = "",
+    var contractsId: List<Contract> = emptyList(),
     var id: String = ""
 ) {
-    constructor(): this ("","","","","","","",)
+    constructor(): this ("","","","","", emptyList(),"")
 }

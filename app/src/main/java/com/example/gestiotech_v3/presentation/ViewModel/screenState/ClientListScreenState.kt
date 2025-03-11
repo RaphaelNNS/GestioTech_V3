@@ -1,9 +1,9 @@
 package com.example.gestiotech_v3.presentation.ViewModel.screenState
 
-import com.example.gestiotech_v3.presentation.ViewModel.screenState.displayState.DisplayState
+import com.example.gestiotech_v3.presentation.ViewModel.screenState.displayState.ClientDisplayState
 
 class ClientListScreenState {
 
 
-    var clientlistDisplayState: DisplayState? = DisplayState.Loading
+    var clientDisplayState: ClientDisplayState? = ClientDisplayState.Loading
 }

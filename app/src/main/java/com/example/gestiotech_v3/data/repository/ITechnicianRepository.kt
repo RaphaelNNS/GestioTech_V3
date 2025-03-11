@@ -4,8 +4,10 @@ import com.example.gestiotech_v3.model.entities.Technician
 
 interface ITechnicianRepository {
     suspend fun getTechnicians(): List<Technician>
+    suspend fun getTechnician(id: String): Technician?
     suspend fun addTechnician(tec: Technician): Technician
-    suspend fun deleteTechnician(id: String)
+    fun deleteTechnician(id: String)
+    suspend fun editTechnician(tec: Technician)
 
 
 }

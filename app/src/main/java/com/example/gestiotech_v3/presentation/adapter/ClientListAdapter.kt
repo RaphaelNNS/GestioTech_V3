@@ -26,7 +26,7 @@ class ClientListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClientViewHolder {
         val layoutInflater =  LayoutInflater.from(parent.context)
-        val itemView = layoutInflater.inflate(R.layout.recycler_technicians_view_item, parent, false)
+        val itemView = layoutInflater.inflate(R.layout.recycler_client_view_item, parent, false)
         return ClientViewHolder(itemView)
     }
 
@@ -39,7 +39,7 @@ class ClientListAdapter(
         holder.textName.text = client.name.toString()
         holder.editBtn.setOnClickListener{
             var intent = Intent(holder.itemView.context, EditClientActivity::class.java)
-            intent.putExtra("client", client)
+            intent.putExtra("clientId", client.id)
             startActivity(holder.itemView.context, intent, null)
         }
     }

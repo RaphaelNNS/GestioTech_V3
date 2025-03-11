@@ -3,39 +3,39 @@ package com.example.gestiotech_v3.presentation.ViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.gestiotech_v3.data.repository.IClientRepository
-import com.example.gestiotech_v3.model.entities.Client
-import com.example.gestiotech_v3.presentation.ViewModel.screenState.EditClientActivityScreenState
+import com.example.gestiotech_v3.data.repository.ITechnicianRepository
+import com.example.gestiotech_v3.model.entities.Technician
+import com.example.gestiotech_v3.presentation.ViewModel.screenState.EditTechnicianActivityScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class EditClientViewModel @Inject constructor(
-    val clientRepository: IClientRepository
+class EditTechnicianViewModel @Inject constructor(
+    val technicianRepository: ITechnicianRepository
 ) : ViewModel() {
 
-    private var screenState = EditClientActivityScreenState()
-    val screenStateLiveData: MutableLiveData<EditClientActivityScreenState> = MutableLiveData()
+    var screenState = EditTechnicianActivityScreenState()
+    val screenStateLiveData: MutableLiveData<EditTechnicianActivityScreenState> = MutableLiveData()
 
     init {
         screenStateLiveData.value = screenState
     }
 
-    fun setClient(client: Client) {
-        screenState.client = client
+    fun setTechnician(technician: Technician) {
+        screenState.technician = technician
         updateLiveData()
     }
 
     fun editClient() {
-        var client = screenState.client
+        var technician = screenState.technician
 
         screenState.isLoading = true
         updateLiveData()
 
         viewModelScope.launch {
             kotlin.runCatching {
-                clientRepository.editCLients(client)
+                technicianRepository.editTechnician(technician)
             }.onSuccess {
                 screenState.errorMessage = "Cliente atualizado com sucesso."
                 updateLiveData()
@@ -49,18 +49,18 @@ class EditClientViewModel @Inject constructor(
         }
     }
 
-    private fun updateLiveData() {
+    fun updateLiveData() {
         screenStateLiveData.postValue(screenState)
     }
 
-    fun deleteClient(){
+    fun deleteTechnician(){
 
-        var clientId = screenState.client.id
+        var technicianId = screenState.technician.id
 
         kotlin.runCatching {
-            clientRepository.deleteCLients(clientId)
+            technicianRepository.deleteTechnician(technicianId)
         }.onSuccess {
-            screenState.isClientDone = true
+            screenState.isTechnicianDone = true
             updateLiveData()
         }.onFailure {
             screenState.errorMessage = "Erro ao exlcuir o cliente \n Operação não efetuada"

@@ -2,6 +2,7 @@ package com.example.gestiotech_v3.data.repository
 
 import com.example.gestiotech_v3.model.entities.Technician
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.tasks.await
 
 class FirebaseTechnicianRepository: ITechnicianRepository {
@@ -21,6 +22,13 @@ class FirebaseTechnicianRepository: ITechnicianRepository {
         return tecList
     }
 
+    override suspend fun getTechnician(id: String): Technician? {
+        val database = FirebaseFirestore.getInstance()
+        val result = database.collection("Technicians").document(id).get().await()
+
+        return result.toObject(Technician::class.java)
+    }
+
     override suspend fun addTechnician(tec: Technician): Technician {
         val database = FirebaseFirestore.getInstance()
         val result = database.collection("Technicians").add(tec).await()
@@ -28,10 +36,20 @@ class FirebaseTechnicianRepository: ITechnicianRepository {
         return tec
     }
 
-    override suspend fun deleteTechnician(id: String) {
+    override  fun deleteTechnician(id: String) {
         val database = FirebaseFirestore.getInstance()
         database.collection("Technicians").document(id).delete()
     }
+
+    override suspend fun editTechnician(tec: Technician) {
+        val database = FirebaseFirestore.getInstance()
+
+        database.collection("Technicians")
+            .document(tec.id)
+            .set(tec, SetOptions.merge())
+            .await()
+    }
+
 
 
 }

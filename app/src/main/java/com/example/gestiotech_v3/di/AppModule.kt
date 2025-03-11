@@ -1,7 +1,9 @@
 package com.example.gestiotech_v3.di
 
 import com.example.gestiotech_v3.data.repository.ClientRepositoryFirestore
+import com.example.gestiotech_v3.data.repository.FirebaseTechnicianRepository
 import com.example.gestiotech_v3.data.repository.IClientRepository
+import com.example.gestiotech_v3.data.repository.ITechnicianRepository
 import com.example.gestiotech_v3.data.repository.IUserRepository
 import com.example.gestiotech_v3.data.repository.UserRepositoryFirestore
 import dagger.Module
@@ -25,5 +27,11 @@ object AppModule {
     @Provides
     fun providesUserRepository(): IUserRepository {
         return UserRepositoryFirestore()
+    }
+
+    @Singleton
+    @Provides
+    fun providesTechnicianRepository(): ITechnicianRepository {
+        return FirebaseTechnicianRepository()
     }
 }

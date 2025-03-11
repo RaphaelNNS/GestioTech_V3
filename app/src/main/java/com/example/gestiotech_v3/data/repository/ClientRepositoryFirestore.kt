@@ -1,6 +1,7 @@
 package com.example.gestiotech_v3.data.repository
 
 import com.example.gestiotech_v3.model.entities.Client
+import com.example.gestiotech_v3.model.entities.Technician
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.delay
@@ -50,6 +51,15 @@ class ClientRepositoryFirestore @Inject constructor(): IClientRepository {
         val dataBase = FirebaseFirestore.getInstance()
 
         dataBase.collection("Clients").document(id).delete()
+    }
+
+    override suspend fun getClient(id: String): Client? {
+        val database = FirebaseFirestore.getInstance()
+        val result = database.collection("Clients").document(id).get().await()
+        val client = result.toObject(Client::class.java)
+        client?.id = result.id
+        return client
+
     }
 
     /**

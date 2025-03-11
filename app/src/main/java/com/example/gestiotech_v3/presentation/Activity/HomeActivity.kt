@@ -7,16 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.example.gestiotech_v3.R
 import com.example.gestiotech_v3.databinding.ActivityHomeBinding
-import com.example.gestiotech_v3.model.entities.Client
 import com.example.gestiotech_v3.presentation.Fragment.ClientListFragment
 import com.example.gestiotech_v3.presentation.Fragment.HomeFragment
 import com.example.gestiotech_v3.presentation.Fragment.SettingsFragment
 import com.example.gestiotech_v3.presentation.ViewModel.HomeViewModel
-import com.example.gestiotech_v3.presentation.ViewModel.LoginViewModel
-import com.example.gestiotech_v3.presentation.ViewModel.TecListFragment
+import com.example.gestiotech_v3.presentation.Fragment.TecListFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,18 +35,14 @@ class HomeActivity : AppCompatActivity() {
 
         setupObserver()
 
-        val homeFragment = HomeFragment()
         val settingsFragment = SettingsFragment()
-        val tecListFragment = TecListFragment()
-        val clientListFragment = ClientListFragment()
-
 
         binding.homeNav.setOnItemSelectedListener { item ->
             when(item.itemId){
-                R.id.ic_contracts -> viewModel.screenState.currentFragment = homeFragment
+                R.id.ic_contracts -> viewModel.screenState.currentFragment = HomeFragment()
                 R.id.ic_settings -> viewModel.screenState.currentFragment = settingsFragment
-                R.id.ic_tecList -> viewModel.screenState.currentFragment = tecListFragment
-                R.id.ic_clients -> viewModel.screenState.currentFragment = clientListFragment
+                R.id.ic_tecList -> viewModel.screenState.currentFragment = TecListFragment()
+                R.id.ic_clients -> viewModel.screenState.currentFragment = ClientListFragment()
             }
             viewModel.updateLiveData()
             true

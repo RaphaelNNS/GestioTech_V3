@@ -11,68 +11,67 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gestiotech_v3.R
-import com.example.gestiotech_v3.databinding.FragmentClientListBinding
-import com.example.gestiotech_v3.model.entities.Client
-import com.example.gestiotech_v3.presentation.ViewModel.ClientListViewModel
-import com.example.gestiotech_v3.presentation.ViewModel.screenState.ClientListScreenState
-import com.example.gestiotech_v3.presentation.ViewModel.screenState.displayState.ClientDisplayState
-import com.example.gestiotech_v3.presentation.adapter.ClientListAdapter
+import com.example.gestiotech_v3.databinding.FragmentTecListBinding
+import com.example.gestiotech_v3.model.entities.Technician
+import com.example.gestiotech_v3.presentation.ViewModel.TecListViewModel
+import com.example.gestiotech_v3.presentation.ViewModel.screenState.TecListScreenState
+import com.example.gestiotech_v3.presentation.ViewModel.screenState.displayState.TechnicianDisplayState
+import com.example.gestiotech_v3.presentation.adapter.TechnicianListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ClientListFragment : Fragment() {
+class TecListFragment : Fragment() {
 
-    private lateinit var binding: FragmentClientListBinding
+    private lateinit var binding: FragmentTecListBinding
     private lateinit var recycler: RecyclerView
-    private val viewModel: ClientListViewModel by viewModels()
+    private val viewModel: TecListViewModel by viewModels()
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentClientListBinding.inflate(inflater)
+        binding = FragmentTecListBinding.inflate(inflater)
         setupRecyclerView()
         showLoading(true)
         val screenStateLiveData = viewModel.screenStateLiveData
         setupObserver(screenStateLiveData)
         binding.floatingActionButton.setOnClickListener{
-            callAddClientFragment()
+            callAddTechnicianFragment()
         }
         binding.floatingButtonUpdateList.setOnClickListener{
-            viewModel.getClients()
-
+            viewModel.getTechnicians()
         }
 
 
         return binding.root
     }
-
-    fun callAddClientFragment(){
-        val fragmentManager = requireActivity().supportFragmentManager.beginTransaction()
-        fragmentManager.replace(R.id.fragment_home, AddClientFragment()).commit()
-    }
-
-    private fun setupObserver(screenStateLiveData: MutableLiveData<ClientListScreenState>) {
+    private fun setupObserver(screenStateLiveData: MutableLiveData<TecListScreenState>) {
         screenStateLiveData.observe(viewLifecycleOwner) { screenState ->
-            when (val displayState = screenState.clientDisplayState) {
-                is ClientDisplayState.Success -> {
+            when (val displayState = screenState.displayState) {
+                is TechnicianDisplayState.Success -> {
                     showLoading(false)
-                    showList(displayState.clientList)
+                    showList(displayState.technicianList)
                 }
 
-                is ClientDisplayState.Error -> {
+                is TechnicianDisplayState.Error -> {
                     showLoading(false)
                     showError(displayState.exception.message.toString())
                 }
 
-                is ClientDisplayState.Loading -> {
+                is TechnicianDisplayState.Loading -> {
                     showLoading(true)
                 }
 
                 null -> TODO()
             }
         }
+    }
+
+
+    fun callAddTechnicianFragment(){
+        val fragmentManager = requireActivity().supportFragmentManager.beginTransaction()
+        fragmentManager.replace(R.id.fragment_home, AddTechnicianFragment()).commit()
     }
 
     fun showError(s: String) {
@@ -85,12 +84,13 @@ class ClientListFragment : Fragment() {
         alert.create().show()
     }
     private fun setupRecyclerView(){
-        recycler = binding.recyclerViewClients
+        recycler = binding.recyclerViewTechnicians
         recycler.layoutManager = LinearLayoutManager(requireContext())
     }
 
-    fun showList(clients: List<Client>){
-        recycler.adapter = ClientListAdapter(clients)
+    fun showList(tecList: List<Technician>){
+
+        recycler.adapter = TechnicianListAdapter(tecList)
     }
 
     private fun showLoading(show: Boolean) {

@@ -39,6 +39,10 @@
         <activity
             android:name=".presentation.Activity.HomeActivity"
             android:exported="false" />
+        <activity android:name=".presentation.Activity.EditTechnicianActivity"
+            android:exported="false"
+            />
+
     </application>
 
 </manifest>

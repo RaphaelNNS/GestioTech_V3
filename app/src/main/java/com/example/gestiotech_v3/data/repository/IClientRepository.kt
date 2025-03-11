@@ -7,5 +7,6 @@ interface IClientRepository {
     abstract suspend fun getClients(): List<Client>
     suspend fun editCLients(client: Client)
     abstract fun deleteCLients(id: String)
+    abstract suspend fun getClient(id: String): Client?
 
 }

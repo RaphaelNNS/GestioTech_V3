@@ -4,9 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gestiotech_v3.data.repository.IClientRepository
-import com.example.gestiotech_v3.model.repository.FirebaseHandler
 import com.example.gestiotech_v3.presentation.ViewModel.screenState.ClientListScreenState
-import com.example.gestiotech_v3.presentation.ViewModel.screenState.displayState.DisplayState
+import com.example.gestiotech_v3.presentation.ViewModel.screenState.displayState.ClientDisplayState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,11 +24,11 @@ class ClientListViewModel @Inject constructor(
     fun getClients(){
         viewModelScope.launch {
             try {
-                screenState.clientlistDisplayState = DisplayState.Loading
+                screenState.clientDisplayState = ClientDisplayState.Loading
                 val clients = clientRepository.getClients()
-                screenState.clientlistDisplayState = DisplayState.Success(clients)
+                screenState.clientDisplayState = ClientDisplayState.Success(clients)
             }catch (e: Exception){
-                screenState.clientlistDisplayState = DisplayState.Error(e)
+                screenState.clientDisplayState = ClientDisplayState.Error(e)
             }finally {
                 updateLiveData()
             }
