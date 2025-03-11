@@ -8,5 +8,6 @@ data class Client(
     var address: String = "",
     var phoneNumber: String = "",
     var description: String = "",
+    var ownerId: String = "",
     var contractsId: List<Contract> = emptyList()
 )

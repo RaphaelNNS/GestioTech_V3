@@ -2,6 +2,7 @@ package com.example.gestiotech_v3.data.repository
 
 import com.example.gestiotech_v3.model.entities.Client
 import com.example.gestiotech_v3.model.entities.Technician
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.delay
@@ -11,10 +12,11 @@ import javax.inject.Inject
 class ClientRepositoryFirestore @Inject constructor(): IClientRepository {
 
     override suspend fun getClients(): List<Client> {
+        val firebaseAuth = FirebaseAuth.getInstance()
         val dataBase = FirebaseFirestore.getInstance()
 
         val clients = ArrayList<Client>()
-        val result = dataBase.collection("Clients").get().await()
+        val result = dataBase.collection("Clients").whereEqualTo("ownerId", firebaseAuth.uid.toString()).get().await()
 
         result.documents.mapNotNull { document ->
             var client = document.toObject(Client::class.java)
@@ -30,15 +32,7 @@ class ClientRepositoryFirestore @Inject constructor(): IClientRepository {
     override suspend fun editCLients(client: Client) {
         val dataBase = FirebaseFirestore.getInstance()
 
-        val mapClient = mapOf(
-            "name" to client.name,
-            "documentNumber" to client.documentNumber,
-            "phoneNumber" to client.phoneNumber,
-            "description" to client.description,
-            "address" to client.address
-
-
-        )
+        val mapClient = client.copy()
 
         dataBase
             .collection("Clients")
@@ -66,23 +60,13 @@ class ClientRepositoryFirestore @Inject constructor(): IClientRepository {
      * The provided client ID is redundant; an ID will be automatically generated.
      * */
     override suspend fun addClient(client: Client): Client{
-        val dataBase = FirebaseFirestore.getInstance()
-        val mapClient = mapOf(
-            "name" to client.name,
-            "documentNumber" to client.documentNumber,
-            "phoneNumber" to client.phoneNumber,
-            "description" to client.description,
-            "address" to client.address
+        val database = FirebaseFirestore.getInstance()
+        val firebase = FirebaseAuth.getInstance()
+        val ownerId = firebase.currentUser?.uid ?: ""
 
-
-        )
-        val document =
-            dataBase
-            .collection("Clients")
-            .add(mapClient)
-            .await()
-
-        return client.copy(id = document.id)
+        val newClient = client.copy(ownerId = ownerId) // Cria uma cópia imutável do objeto
+        val result = database.collection("Clients").add(newClient).await()
+        return newClient.copy(id = result.id)
     }
 
 }

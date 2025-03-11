@@ -6,7 +6,8 @@ data class Technician(
     var email: String = "",
     var phoneNumber: String = "",
     var documentNumber: String = "",
-    var contractsId: List<Contract> = emptyList(),
+    var contractsId: List<Int> = emptyList(),
+    var ownerId: String = "",
     var id: String = ""
 ) {
     constructor(): this ("","","","","", emptyList(),"")

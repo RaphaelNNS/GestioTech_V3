@@ -2,6 +2,7 @@ package com.example.gestiotech_v3
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import kotlinx.coroutines.test.runTest
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -21,4 +22,9 @@ class ExampleInstrumentedTest {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("com.example.gestiotech_v3", appContext.packageName)
     }
+
+//    @Test
+//    fun useAContext() = runTest {
+//        RegistrationUtil.deleteAllUsers()
+//    }
 }

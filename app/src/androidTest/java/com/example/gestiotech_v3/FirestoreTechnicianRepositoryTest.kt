@@ -31,9 +31,10 @@ class FirestoreTechnicianRepositoryTest {
             name = "#Name",
             description = "#Description",
             email = "#Email",
-            password = "#Password",
             phoneNumber = "#PhoneNumber",
             documentNumber = "#DocumentNumber",
+            contractsId = emptyList<Int>(),
+            ownerId = "sd"
         )
 
         val newTec = repository.addTechnician(tec)
@@ -51,9 +52,10 @@ class FirestoreTechnicianRepositoryTest {
             name = "#Name",
             description = "#Description",
             email = "#Email",
-            password = "#Password",
             phoneNumber = "#PhoneNumber",
             documentNumber = "#DocumentNumber",
+            contractsId = emptyList<Int>(),
+            ownerId = "sd"
         )
 
         val newTec = repository.addTechnician(tec)

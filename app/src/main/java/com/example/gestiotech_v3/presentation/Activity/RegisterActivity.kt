@@ -12,7 +12,9 @@ import com.example.gestiotech_v3.R
 import com.example.gestiotech_v3.databinding.ActivityRegisterBinding
 import com.example.gestiotech_v3.presentation.ViewModel.LoginViewModel
 import com.example.gestiotech_v3.presentation.ViewModel.RegisterViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding

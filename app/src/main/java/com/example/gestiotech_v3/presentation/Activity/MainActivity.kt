@@ -16,6 +16,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(){
 
     private lateinit var binding: ActivityMainBinding
@@ -32,8 +33,12 @@ class MainActivity : AppCompatActivity(){
             insets
         }
         setupButtons()
-        loginViewModel.onCreate()
         setupObservers()
+    }
+
+    override fun onStart() {
+        loginViewModel.onCreate()
+        super.onStart()
     }
 
     private fun setupButtons(){

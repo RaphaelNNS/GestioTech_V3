@@ -1,6 +1,7 @@
 package com.example.gestiotech_v3.data.repository
 
 import com.example.gestiotech_v3.model.entities.Technician
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.tasks.await
@@ -8,7 +9,8 @@ import kotlinx.coroutines.tasks.await
 class FirebaseTechnicianRepository: ITechnicianRepository {
     override suspend fun getTechnicians(): List<Technician> {
         val database = FirebaseFirestore.getInstance()
-        val result = database.collection("Technicians").get().await()
+        val firebaseAuth = FirebaseAuth.getInstance()
+        val result = database.collection("Technicians").whereEqualTo("ownerId", firebaseAuth.uid.toString()).get().await()
         val tecList = ArrayList<Technician>()
 
         result.documents.mapNotNull {
@@ -31,6 +33,8 @@ class FirebaseTechnicianRepository: ITechnicianRepository {
 
     override suspend fun addTechnician(tec: Technician): Technician {
         val database = FirebaseFirestore.getInstance()
+        val firebaseAuth = FirebaseAuth.getInstance()
+        tec.ownerId = firebaseAuth.uid.toString()
         val result = database.collection("Technicians").add(tec).await()
         tec.id = result.id
         return tec

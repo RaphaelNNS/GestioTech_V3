@@ -31,9 +31,9 @@ class EditClientActivity : AppCompatActivity() {
         val id  = intent.getStringExtra("clientId").toString()
         lifecycleScope.launch {
             freezeInterface(visibility = true)
-            updateOnModel()
             client = viewModel.clientRepository.getClient(id)!!
             viewModel.setClient(client)
+            updateOnModel()
             freezeInterface(false)
             fillEditTexts()
             try {

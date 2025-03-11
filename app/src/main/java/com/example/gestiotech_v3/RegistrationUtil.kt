@@ -19,7 +19,7 @@ object RegistrationUtil {
 
     suspend fun deleteAllUsers() {
         val db = FirebaseFirestore.getInstance()
-        val usersCollection = db.collection("Clients")
+        val usersCollection = db.collection("Technician")
 
         try {
             // Obtém todos os documentos da coleção "Users"
